@@ -11,7 +11,7 @@
 
 <?php
 $sidebar_layout = apply_filters( 'hestia_sidebar_layout', get_theme_mod( 'hestia_page_sidebar_layout', 'full-width' ) );
-$wrap_class     = apply_filters( 'hestia_filter_page_content_classes', 'col-md-8 page-content-wrap ' );
+$wrap_class     = apply_filters( 'hestia_filter_page_content_classes', 'col-md-12  page-content-wrap ' );
 ?>
 
 	<article id="post-<?php the_ID(); ?>" class="section section-text">
@@ -21,7 +21,8 @@ $wrap_class     = apply_filters( 'hestia_filter_page_content_classes', 'col-md-8
 				do_action( 'hestia_page_sidebar' );
 			}
 			?>
-			<div class="<?php echo esc_attr( $wrap_class ); ?>">
+			<div class="col-md-12 page-content-wrap">
+<!--			<div class="test --><?php //echo esc_attr( $wrap_class ); ?><!--">-->
 				<?php
 				do_action( 'hestia_before_page_content' );
 

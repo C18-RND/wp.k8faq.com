@@ -219,3 +219,60 @@ function hestia_minimize_css( $css ) {
 	$css = preg_replace( '/#([a-f0-9])\\1([a-f0-9])\\2([a-f0-9])\\3/i', '#\1\2\3', $css );
 	return trim( $css );
 }
+
+
+function my_setup() {
+
+//    if(is_page('faq')) {
+        wp_enqueue_style('faq_base', get_template_directory_uri() . '/assets/css/base.css');
+        wp_enqueue_style('faq_main', get_template_directory_uri() . '/assets/css/main.css');
+        wp_enqueue_style('faq_tailwind', get_template_directory_uri() . '/assets/css/tailwind.css');
+//    }
+
+//    if(is_page('about')) {
+//        wp_enqueue_style('about', get_template_directory_uri() . '/css/about_style.css');
+//    }
+    // etc
+
+}
+
+
+function custom_post_list_shortcode($atts) {
+    $atts = shortcode_atts(
+        array(
+            'posts_per_page' => 5,
+        ),
+        $atts,
+        'post_list'
+    );
+
+    $query = new WP_Query(array(
+        'post_type' => 'post',
+        'posts_per_page' => $atts['posts_per_page'],
+        'category_name' => 'promotions'
+    ));
+
+    if ($query->have_posts()) {
+        $output = '<div class="discount-content less-content">';
+        while ($query->have_posts()) {
+            $output .= '<div class="group-wrap">';
+            $query->the_post();
+            if( has_post_thumbnail() ) {
+                $output .= '<img src="' . wp_get_attachment_url( get_post_thumbnail_id(get_the_ID())) . '" alt="' . get_the_title() . '">' ;
+            }
+            $output .= '<h4 class="title-wrap" >' . get_the_title() . '</h4>';
+            $output .= '<p class="time u-green">' . get_the_title() . '</p>';
+            $output .= '<p class="overview">' . get_the_excerpt() . '</p>';
+            $output .= '<a class="u-btn-1 bg-autumn-maple-100 text-white py-[6px] rounded-lg h-[36px] w-[120px] max-w-[120px] inline-block text-center" href="' . get_the_permalink() . '"> 詳細を確認 </a>';
+            $output .= '</div>';
+        }
+        $output .= '</div>';
+        wp_reset_postdata();
+        return $output;
+    } else {
+        return 'No posts found.';
+    }
+}
+add_shortcode('post_list', 'custom_post_list_shortcode');
+
+add_action('wp_enqueue_scripts', 'my_setup');

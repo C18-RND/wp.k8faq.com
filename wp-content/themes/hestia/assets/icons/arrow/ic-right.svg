@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icons/arrow/ic-right</title>
+    <g id="icons/arrow/ic-right" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Rectangle" x="0" y="0" width="16" height="16"></rect>
+        <path d="M4.24282389,5.2506506 C3.9190587,5.58375565 3.9190587,6.12395562 4.24282389,6.45815642 L8.41349884,10.7501712 C8.73726403,11.0832763 9.26273597,11.0832763 9.58650116,10.7501712 L13.7571761,6.45815642 C14.0809413,6.12395562 14.0809413,5.58375565 13.7571761,5.2506506 C13.4334109,4.91754554 12.907939,4.91754554 12.5841738,5.2506506 L9,8.93891248 L5.41686062,5.2506506 C5.09309542,4.9164498 4.56762348,4.9164498 4.24282389,5.2506506 Z" id="Path" fill="#B0BBCC" transform="translate(9.000000, 8.000000) scale(-1, 1) rotate(90.000000) translate(-9.000000, -8.000000) "></path>
+    </g>
+</svg>

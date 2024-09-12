@@ -8,7 +8,7 @@
 
 get_header();
 
-do_action( 'hestia_before_single_page_wrapper' );
+//do_action( 'hestia_before_single_page_wrapper' );
 
 ?>
 <div class="<?php echo hestia_layout(); ?>">

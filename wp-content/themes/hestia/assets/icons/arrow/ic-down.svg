@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icons/arrow/ic-down </title>
+    <g id="icons/arrow/ic-down-" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Rectangle" x="0" y="0" width="16" height="16"></rect>
+        <path d="M3.24282389,5.2506506 C2.9190587,5.58375565 2.9190587,6.12395562 3.24282389,6.45815642 L7.41349884,10.7501712 C7.73726403,11.0832763 8.26273597,11.0832763 8.58650116,10.7501712 L12.7571761,6.45815642 C13.0809413,6.12395562 13.0809413,5.58375565 12.7571761,5.2506506 C12.4334109,4.91754554 11.907939,4.91754554 11.5841738,5.2506506 L8,8.93891248 L4.41686062,5.2506506 C4.09309542,4.9164498 3.56762348,4.9164498 3.24282389,5.2506506 Z" id="Path" fill="#B0BBCC"></path>
+    </g>
+</svg>
