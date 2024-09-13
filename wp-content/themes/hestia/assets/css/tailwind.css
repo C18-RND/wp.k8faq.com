@@ -27,14 +27,16 @@
     flex-wrap: wrap;
     justify-content: space-between;
     margin-top: 12px;
-    width: 100%
+    width: 100%;
+    font-size:15px;
 }
+/*#b0bbcc*/
 
 .discount-content .time {
     font-size: 12px;
     height: 20px;
     line-height: 20px;
-    margin: 0
+    margin: 0 0 12px 0;
 }
 
 .discount-content .overview {
@@ -47,7 +49,7 @@
     line-height: 22px;
     margin: 4px 0 10px;
     overflow: hidden;
-    text-overflow: ellipsis
+    text-overflow: ellipsis;
 }
 
 @media screen and (min-width: 674px) {
@@ -74,8 +76,11 @@
 }
 
 @media screen and (min-width: 1080px) {
-    .discount-content,.less-content {
+    .discount-content.less-content {
         grid-template-columns:repeat(3,1fr)
+    }
+    .archive-post-wrap.discount-content.less-content {
+        grid-template-columns:repeat(2,1fr)
     }
 }
  :root {
@@ -808,7 +813,8 @@ body {
     font-size: 11px
 }
 
-.text-13px {
+.text-13px,
+.page-content-wrap .text-13px {
     font-size: 13px;
     letter-spacing: 0;
     line-height: 20px

@@ -28,7 +28,7 @@ class Hestia_Blog_Post_Layout {
 		$pid           = get_the_ID();
 		$article_class = $this->get_article_class( $layout );
 		$wrapper_class = $this->get_wrapper_class( $layout );
-		$row_class     = 'row ';
+		$row_class     = 'group-wrap';
 		if ( $layout === 'alt-1' ) {
 			$row_class = 'row alternative-blog-row ';
 		}
@@ -97,23 +97,11 @@ class Hestia_Blog_Post_Layout {
 
 		$post_thumbnail_content = '';
 		$size                   = 'hestia-blog';
-		$wrap_class             = 'col-ms-5 col-sm-5';
 		if ( $type === 'alt-2' ) {
 			$size       = 'medium_large';
-			$wrap_class = 'card-header card-header-image';
 		}
 
-		$post_thumbnail_content .= '<div class="' . esc_attr( $wrap_class ) . '">';
-		$post_thumbnail_content .= '<div class="card-image">';
-		$post_thumbnail_content .= '<a href="' . esc_url( get_the_permalink() ) . '" title="' . the_title_attribute(
-			array(
-				'echo' => false,
-			)
-		) . '">';
 		$post_thumbnail_content .= get_the_post_thumbnail( null, $size );
-		$post_thumbnail_content .= '</a>';
-		$post_thumbnail_content .= '</div>';
-		$post_thumbnail_content .= '</div>';
 
 		return $post_thumbnail_content;
 	}
@@ -128,7 +116,7 @@ class Hestia_Blog_Post_Layout {
 		switch ( $layout ) {
 			case 'default':
 			case 'alt-1':
-				$classes  = 'card card-blog';
+				$classes  = '';
 				$classes .= ( is_sticky() && is_home() && ! is_paged() ? ' card-raised' : ' card-plain' );
 				break;
 			case 'alt-2':
@@ -169,7 +157,7 @@ class Hestia_Blog_Post_Layout {
 		switch ( $layout ) {
 			case 'default':
 			case 'alt-1':
-				$classes = has_post_thumbnail() ? 'col-ms-7 col-sm-7' : 'col-sm-12';
+				$classes = '';
 				break;
 			case 'alt-2':
 				$classes = 'col-md-12';
@@ -199,10 +187,9 @@ class Hestia_Blog_Post_Layout {
 		$post_body_content .= '<h6 class="category text-info">';
 		$post_body_content .= hestia_category();
 		$post_body_content .= '</h6>';
-
 		$post_body_content .= the_title(
 			sprintf(
-				'<h2 class="card-title entry-title"><a href="%s" title="%s" rel="bookmark">',
+				'<h2 class="title-wrap">',
 				esc_url( get_permalink() ),
 				the_title_attribute(
 					array(
@@ -210,19 +197,36 @@ class Hestia_Blog_Post_Layout {
 					)
 				)
 			),
-			'</a></h2>',
+			'</h2>',
 			false
 		);
 
 		$excerpt_class = $this->is_full_content() ? 'entry-content' : 'entry-summary';
 
-		$post_body_content .= '<div class="card-description ' . $excerpt_class . ' ">';
+		$post_body_content .= '<div class="overview ' . $excerpt_class . ' ">';
 		$post_body_content .= $this->get_theme_excerpt( $type );
 		$post_body_content .= '</div>';
 
 		if ( $type === 'default' ) {
-			$post_body_content .= $this->render_post_meta();
+//			$post_body_content .= $this->render_post_meta();
 		}
+
+        $categories = get_the_category ();
+        if ( ! empty( $categories ) ) {
+            foreach ( $categories as $category ) {
+                if (str_contains($category->name, 'promo')) {
+                    $post_body_content .= '<p class="time u-green">';
+                    $post_body_content .= '<span class="start_date">'.get_field('start_date').'</span> ~ ';
+                    $post_body_content .= '<span class="start_date">'.get_field('end_date').'</span>';
+                    $post_body_content .= '</p>';
+                    break;
+                }
+            }
+        }
+//        if(get_the_category() === 'promotions') {
+//            $post_body_content .= $this->render_post_meta();
+//        }
+        $post_body_content .= '<a class="u-btn-1 bg-autumn-maple-100 text-white py-[6px] rounded-lg h-[36px] w-[120px] max-w-[120px] inline-block text-center" href="' . get_the_permalink() . '"> 詳細を確認 </a>';
 
 		if ( $type === 'alt-2' ) {
 			$post_body_content .= $this->render_read_more_button();

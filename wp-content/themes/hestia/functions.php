@@ -267,6 +267,8 @@ function custom_post_list_shortcode($atts) {
             $output .= '</div>';
         }
         $output .= '</div>';
+        $output .= hestia_category();
+//        $output .= '<div><a class="u-btn-1 bg-autumn-maple-100 text-white py-[6px] rounded-lg h-[36px] w-[120px] max-w-[120px] inline-block text-center" href="' . get_the_permalink() . '"> すべて表示 </a></div>';
         wp_reset_postdata();
         return $output;
     } else {

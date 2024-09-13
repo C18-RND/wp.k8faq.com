@@ -18,7 +18,7 @@ get_header();
 
 $default         = hestia_get_blog_layout_default();
 $sidebar_layout  = apply_filters( 'hestia_sidebar_layout', get_theme_mod( 'hestia_blog_sidebar_layout', $default ) );
-$wrapper_classes = apply_filters( 'hestia_filter_archive_content_classes', 'col-md-8 archive-post-wrap' );
+$wrapper_classes = apply_filters( 'hestia_filter_archive_content_classes', 'col-md-8 archive-post-wrap discount-content less-content');
 
 //do_action( 'hestia_before_archive_content' );
 
