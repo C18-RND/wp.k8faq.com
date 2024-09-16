@@ -47,6 +47,10 @@ a,
 /*.noto-sans-jp-medium {*/
 /*  font-family: "NotoSansJP-Medium";*/
 /*}*/
+.category .container {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
 .homepage-banner {
   width: 100%;
 }

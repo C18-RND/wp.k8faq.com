@@ -261,14 +261,16 @@ function custom_post_list_shortcode($atts) {
                 $output .= '<img src="' . wp_get_attachment_url( get_post_thumbnail_id(get_the_ID())) . '" alt="' . get_the_title() . '">' ;
             }
             $output .= '<h4 class="title-wrap" >' . get_the_title() . '</h4>';
-            $output .= '<p class="time u-green">' . get_the_title() . '</p>';
+            $output .= '<p class="time u-green">';
+            $output .=  '<span class="start_date">'.get_field('start_date').'</span> ~ ';
+            $output .= '<span class="start_date">'.get_field('end_date').'</span>';
+            $output .= '</p>';
             $output .= '<p class="overview">' . get_the_excerpt() . '</p>';
             $output .= '<a class="u-btn-1 bg-autumn-maple-100 text-white py-[6px] rounded-lg h-[36px] w-[120px] max-w-[120px] inline-block text-center" href="' . get_the_permalink() . '"> 詳細を確認 </a>';
             $output .= '</div>';
         }
         $output .= '</div>';
-        $output .= hestia_category();
-//        $output .= '<div><a class="u-btn-1 bg-autumn-maple-100 text-white py-[6px] rounded-lg h-[36px] w-[120px] max-w-[120px] inline-block text-center" href="' . get_the_permalink() . '"> すべて表示 </a></div>';
+        $output .= '<div class="text-center"><a class="u-btn-1 bg-autumn-maple-100 text-white py-[6px] rounded-lg h-[36px] w-[120px] max-w-[120px] inline-block text-center" href="/promotions"> すべて表示 </a></div>';
         wp_reset_postdata();
         return $output;
     } else {
