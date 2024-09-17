@@ -222,18 +222,9 @@ function hestia_minimize_css( $css ) {
 
 
 function my_setup() {
-
-//    if(is_page('faq')) {
-        wp_enqueue_style('faq_base', get_template_directory_uri() . '/assets/css/base.css');
-        wp_enqueue_style('faq_main', get_template_directory_uri() . '/assets/css/main.css');
-        wp_enqueue_style('faq_tailwind', get_template_directory_uri() . '/assets/css/tailwind.css', array(), '1.0.0', 'all');
-//    }
-
-//    if(is_page('about')) {
-//        wp_enqueue_style('about', get_template_directory_uri() . '/css/about_style.css');
-//    }
-    // etc
-
+    wp_enqueue_style('faq_base', get_template_directory_uri() . '/assets/css/base.css');
+    wp_enqueue_style('faq_main', get_template_directory_uri() . '/assets/css/main.css');
+    wp_enqueue_style('faq_tailwind', get_template_directory_uri() . '/assets/css/tailwind.css', array(), '1.0.0', 'all');
 }
 
 
@@ -280,3 +271,145 @@ function custom_post_list_shortcode($atts) {
 add_shortcode('post_list', 'custom_post_list_shortcode');
 
 add_action('wp_enqueue_scripts', 'my_setup');
+
+function tag_link($content){
+    $posttags = get_the_tags();
+    $match_num_from = 1;  // 一个标签在文章中出现少于多少次不添加链接
+    $match_num_to = 1; // 一篇文章中同一个标签添加几次链接
+
+    // 定义 $case 变量，默认值为空字符串
+    $case = '';
+
+    if ($posttags) {
+        usort($posttags, "tag_sort");
+        //var_dump($posttags);
+        foreach($posttags as $tag) {
+            $link = get_tag_link($tag->term_id);
+            $keyword = $tag->name;
+            //链接的代码
+            $cleankeyword = stripslashes($keyword);
+            $url = "<a href=\"$link\" title=\"".str_replace('%s',addcslashes($cleankeyword, '$'),__('【指定のタグ「%s」を含む記事を表示する】'))."\"";
+            $url .= ' target="_blank" ';
+            $url .= ">".addcslashes($cleankeyword, '$')."</a>";
+            $limit = rand($match_num_from,$match_num_to);
+            //不链接的代码
+            $pattern = "/<code.*?>(.*?)<\/code>/is"; // 匹配 <code> 标签
+            $content = preg_replace_callback(
+                $pattern,
+                static function($matches) use ($cleankeyword) {
+                    return str_replace($cleankeyword, '%&&&&&%', $matches[0]);
+                },
+                $content
+            );
+            $title_pattern = "/<(h[1-6]).*?>(.*?)<\/\\1>/is";
+            $content = preg_replace_callback(
+                $title_pattern,
+                static function($matches) use ($cleankeyword) {
+                    return str_replace($cleankeyword, '%&&&&&%', $matches[0]);
+                },
+                $content
+            );
+            //$content = preg_replace( '|(<a[^>]+>)(.*)('.$ex_word.')(.*)(</a[^>]*>)|U'.$case, '$1$2%&&&&&%$4$5', $content);
+            //$content = preg_replace( '|(<img)(.*?)('.$ex_word.')(.*?)(>)|U'.$case, '$1$2%&&&&&%$4$5', $content);
+            $cleankeyword = preg_quote($cleankeyword,'\'');
+            $regEx = '\'(?!((<.*?)|(<a.*?)))('. $cleankeyword . ')(?!(([^<>]*?)>)|([^>]*?</a>))\'s' . $case;
+            $content = preg_replace($regEx,$url,$content,$limit);
+            $content = str_replace( '%&&&&&%', stripslashes($cleankeyword), $content);
+        }
+    }
+    return $content;
+}
+
+add_filter('the_content','tag_link',1);
+
+add_filter( 'rest_authentication_errors', function( $result ) {
+    // If a previous authentication check was applied,
+    // pass that result along without modification.
+    if ( true === $result || is_wp_error( $result ) ) {
+        return $result;
+    }
+
+    // No authentication has been performed yet.
+    // Return an error if user is not logged in.
+    if ( ! is_user_logged_in() ) {
+        return new WP_Error(
+            'rest_not_logged_in',
+            __( 'You are not currently logged in.' ),
+            array( 'status' => 401 )
+        );
+    }
+
+    // Our custom authentication check should have no effect
+    // on logged-in requests
+    return $result;
+});
+//文章目录
+function article_index($content) {
+    $matches = array();
+    $ul_li = '';
+    $r = '/<h([2-6]).*?\>(.*?)<\/h[2-6]>/is';
+    if(is_single() && preg_match_all($r, $content, $matches)) {
+        foreach($matches[1] as $key => $value) {
+            $title = trim(strip_tags($matches[2][$key]));
+            $content = str_replace($matches[0][$key], '<h' . $value . ' id="title-' . $key . '">'.$title.'</h2>', $content);
+            $ul_li .= '<li><a href="#title-'.$key.'" title="'.$title.'">'.$title."</a></li>\n";
+        }
+        $content = "\n<div id=\"article-index\">
+        <strong>目次</strong>
+        <ul id=\"index-ul\">\n" . $ul_li . "</ul>
+        </div>\n" . $content;
+    }
+    return $content;
+}
+add_filter( 'the_content', 'article_index' );
+
+//404页面 301回首页
+function redirect_404_to_home() {
+    if (is_404()) {
+        wp_redirect(home_url(), 301);
+        exit();
+    }
+}
+add_action('template_redirect', 'redirect_404_to_home');
+
+//搜索伪静态
+function wp_search_url_rewrite() {
+    if ( is_search() && ! empty( $_GET['s'] ) ) {
+        wp_redirect( home_url( "/search/" ) . urlencode( get_query_var( 's' ) ) . "/");
+        exit();
+    }
+}
+add_action( 'template_redirect', 'wp_search_url_rewrite' );
+
+function tag_sort($a, $b){
+    if ( $a->name == $b->name ) return 0;
+    return ( strlen($a->name) > strlen($b->name) ) ? -1 : 1;
+}
+
+// wordpress自动设置最后一张图为特色图片代码
+function wpforce_featured() {
+    global $post;
+    // 检查 $post 对象是否存在并且不是 null
+    if (isset($post) && !is_null($post)) {
+        $already_has_thumb = has_post_thumbnail($post->ID);
+        if (!$already_has_thumb)  {
+            $attached_image = get_children( array(
+                'post_parent' => $post->ID,
+                'post_type' => 'attachment',
+                'post_mime_type' => 'image',
+                'numberposts' => 1
+            ));
+            if ($attached_image) {
+                foreach ($attached_image as $attachment_id => $attachment) {
+                    set_post_thumbnail($post->ID, $attachment_id);
+                }
+            }
+        }
+    }
+}  //end function
+add_action('the_post', 'wpforce_featured');
+add_action('save_post', 'wpforce_featured');
+add_action('draft_to_publish', 'wpforce_featured');
+add_action('new_to_publish', 'wpforce_featured');
+add_action('pending_to_publish', 'wpforce_featured');
+add_action('future_to_publish', 'wpforce_featured');
