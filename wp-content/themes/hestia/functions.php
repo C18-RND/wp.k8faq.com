@@ -226,7 +226,7 @@ function my_setup() {
 //    if(is_page('faq')) {
         wp_enqueue_style('faq_base', get_template_directory_uri() . '/assets/css/base.css');
         wp_enqueue_style('faq_main', get_template_directory_uri() . '/assets/css/main.css');
-        wp_enqueue_style('faq_tailwind', get_template_directory_uri() . '/assets/css/tailwind.css');
+        wp_enqueue_style('faq_tailwind', get_template_directory_uri() . '/assets/css/tailwind.css', array(), '1.0.0', 'all');
 //    }
 
 //    if(is_page('about')) {
