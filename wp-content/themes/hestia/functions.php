@@ -223,7 +223,7 @@ function hestia_minimize_css( $css ) {
 
 function my_setup() {
     wp_enqueue_style('faq_base', get_template_directory_uri() . '/assets/css/base.css');
-    wp_enqueue_style('faq_main', get_template_directory_uri() . '/assets/css/main.css', array(), '1.0.0', 'all');
+    wp_enqueue_style('faq_main', get_template_directory_uri() . '/assets/css/main.css', array(), '1.0.1', 'all');
     wp_enqueue_style('faq_tailwind', get_template_directory_uri() . '/assets/css/tailwind.css', array(), '1.0.1', 'all');
 }
 

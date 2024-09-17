@@ -56,7 +56,9 @@ a,
 .accordion-summary {
   background-image: url("/assets/icons/arrow/ic-down.svg");
 }
-
+.page-content-wrap {
+  padding-bottom: 30px;
+}
 .accordion-details .icon {
   @apply bg-icon-down;
 }
