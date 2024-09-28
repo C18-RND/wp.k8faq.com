@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//sebbo.net//ical-generator//EN
+BEGIN:VEVENT
+UID:6903e72e-c384-4f3c-bca3-33647f66297e
+SEQUENCE:0
+DTSTAMP:20240928T075508Z
+DTSTART:20240928T100000Z
+DTEND:20240928T100000Z
+RRULE:FREQ=WEEKLY;INTERVAL=1;BYDAY=SA
+SUMMARY:🎁 K8毎週大抽選 $50\,000を手に入れろ！
+LOCATION:Discord：K8 Odyssey「K8異世界探検 」 服务器，🏯┆
+ ジャスティンライブ舞台
+DESCRIPTION:K8.io主催の毎週、総額$50\,000のボーナスをドド
+ ーンとプレゼント！\nぜひお楽しみに! 待ってますよ!\n\
+ n📅 放送時間:\n09.28 (土) 19:00から\n10.05 (土) 19:00から\n10.
+ 12 (土) 19:00から\n10.19(土) 19:00から\n\n\nhttps://k8airdrop.com/di
+ scord
+END:VEVENT
+END:VCALENDAR
